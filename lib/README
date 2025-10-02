@@ -1,0 +1,143 @@
+# ESP32 Dual LED Controller
+
+ESP32 project demonstrating advanced button control with two LEDs using OneButton library.
+
+## 🎯 Features
+
+- **Single Click**: Toggle current LED on/off
+- **Double Click**: Switch control between LED1 and LED2  
+- **Long Press (1s)**: Make current LED blink at 200ms interval
+- **Serial Monitor**: Real-time status updates
+
+## 🔌 Hardware Setup
+
+### Components Required:
+- ESP32 DevKit v1
+- 1x External LED
+- 1x 220Ω Resistor (for external LED)
+- 1x Push Button
+- Breadboard and jumper wires
+
+### Pin Connections:
+```
+ESP32 Pin  | Component        | Notes
+-----------|------------------|------------------
+GPIO 2     | LED1 (Built-in)  | On-board LED
+GPIO 32    | LED2 (External)  | Through 220Ω resistor
+GPIO 35    | Button           | Input-only pin, internal pull-up
+GND        | Button & LED2    | Common ground
+3.3V       | LED2 Anode       | Through resistor
+```
+
+### Circuit Diagram:
+```
+ESP32                     External Components
+                         
+GPIO 2 ──── LED1 (built-in)
+                         
+GPIO 32 ──── 220Ω ──── LED2(+)
+                         │
+GND ─────────────────────┴─── LED2(-)
+
+GPIO 35 ──── Button ──── GND
+     │
+   (Internal Pull-up)
+```
+
+## 💻 Software Features
+
+### Button Functions:
+| Action | Function | Description |
+|--------|----------|-------------|
+| **Single Click** | Toggle LED | Turn current LED on/off |
+| **Double Click** | Switch Control | Change between LED1 ⟷ LED2 |
+| **Long Press** | Blink Mode | Current LED blinks every 200ms |
+
+### Serial Output:
+- Real-time status updates
+- Button action logging
+- Current control state display
+
+## 🚀 Getting Started
+
+### Prerequisites:
+- PlatformIO IDE
+- ESP32 DevKit v1
+- Hardware components listed above
+
+### Installation:
+```bash
+# Clone repository
+git clone https://github.com/YOUR_USERNAME/B2_Blink_2_led.git
+cd B2_Blink_2_led
+
+# Build project
+pio run
+
+# Upload to ESP32
+pio run --target upload
+
+# Monitor serial output
+pio device monitor
+```
+
+## 📊 Project Structure
+
+```
+B2_Blink_2_led/
+├── src/
+│   └── main.cpp          # Main application code
+├── platformio.ini        # PlatformIO configuration
+├── README.md            # Project documentation
+└── .gitignore           # Git ignore rules
+```
+
+## 🔧 Configuration
+
+### Pin Definitions (in platformio.ini):
+```ini
+build_flags =
+    '-D LED1_PIN=2U'      ; Built-in LED
+    '-D LED2_PIN=32U'     ; External LED  
+    '-D BUTTON_PIN=35U'   ; External button
+```
+
+### Button Timing:
+- **Click Timeout**: 250ms
+- **Debounce Time**: 50ms  
+- **Long Press**: 1000ms (1 second)
+- **Blink Interval**: 200ms
+
+## 📝 Code Highlights
+
+- ✅ **No external pull-up resistor needed** - uses ESP32 internal pull-up
+- ✅ **GPIO 35 compatibility** - properly configured for input-only pin
+- ✅ **Non-blocking blink** - using millis() for timing
+- ✅ **State management** - clean separation of LED states
+- ✅ **Serial debugging** - comprehensive status reporting
+
+## 🎓 Learning Objectives
+
+This project demonstrates:
+- OneButton library advanced usage
+- ESP32 GPIO configuration (input-only pins)
+- State machine programming
+- Non-blocking timing techniques
+- Serial communication for debugging
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 Author
+
+Created as part of ESP32 learning series.
+
+---
+
+### 🔍 Technical Notes:
+
+- **GPIO 35** is input-only on ESP32, perfect for button input
+- **Internal pull-up** eliminates need for external resistor
+- **OneButton library** handles debouncing and timing automatically
+- **Non-blocking design** allows smooth LED blinking while button monitoring
